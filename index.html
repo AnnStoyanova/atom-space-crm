@@ -261,7 +261,8 @@ async function doLogin(){
 }
 
 async function loadCurrentUser(authUser){
-  const { data: profile } = await sb.from('users').select('*').eq('id', authUser.id).single();
+  const { data: profile, error: profileError } = await sb.from('users').select('*').eq('id', authUser.id).maybeSingle();
+if (profileError) { showError('Помилка: ' + profileError.message); await sb.auth.signOut(); return; }
   if(!profile){ showError('Ваш профіль не знайдено. Зверніться до адміна.'); await sb.auth.signOut(); return; }
   currentUser = { ...authUser, ...profile };
   document.getElementById('auth-screen').style.display = 'none';
