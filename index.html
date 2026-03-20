@@ -1,0 +1,877 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2685.3">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="uk"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1">&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1">&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1">&lt;title&gt;Atom Space CRM&lt;/title&gt;</p>
+<p class="p1">&lt;script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"&gt;&lt;/script&gt;</p>
+<p class="p1">&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>:root {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--green: #1D9E75;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--green-dark: #0F6E56;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--green-light: #E1F5EE;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--green-text: #085041;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--purple-light: #EEEDFE;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--purple-text: #3C3489;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--blue-light: #E6F1FB;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--blue-text: #185FA5;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--amber-light: #FAEEDA;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--amber-text: #633806;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--red-light: #FCEBEB;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--red-text: #A32D2D;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--gray-light: #F1EFE8;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--border: rgba(0,0,0,0.1);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--bg: #ffffff;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--bg2: #f7f7f5;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--text: #1a1a18;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--text2: #6b6b67;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--radius: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--radius-lg: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg2); color: var(--text); min-height: 100vh; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>/* AUTH */</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.auth-screen { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.auth-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 32px; width: 360px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.auth-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.auth-logo-icon { width: 36px; height: 36px; background: var(--green); border-radius: 9px; display: flex; align-items: center; justify-content: center; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.auth-logo-icon svg { width: 20px; height: 20px; fill: white; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.auth-title { font-size: 16px; font-weight: 600; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.auth-sub { font-size: 12px; color: var(--text2); margin-top: 2px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.form-label { font-size: 12px; color: var(--text2); display: block; margin-bottom: 4px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.form-input { width: 100%; padding: 9px 12px; border: 0.5px solid var(--border); border-radius: var(--radius); font-size: 14px; background: var(--bg); color: var(--text); margin-bottom: 12px; outline: none; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.form-input:focus { border-color: var(--green); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.auth-error { font-size: 12px; color: var(--red-text); background: var(--red-light); padding: 8px 12px; border-radius: var(--radius); margin-bottom: 12px; display: none; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.btn-full { width: 100%; padding: 10px; background: var(--green); color: white; border: none; border-radius: var(--radius); font-size: 14px; font-weight: 500; cursor: pointer; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.btn-full:hover { background: var(--green-dark); }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>/* LAYOUT */</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.app { display: none; flex-direction: column; min-height: 100vh; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.header { background: var(--bg); border-bottom: 0.5px solid var(--border); padding: 0 20px; display: flex; align-items: center; justify-content: space-between; height: 52px; position: sticky; top: 0; z-index: 10; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.logo { display: flex; align-items: center; gap: 8px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.logo-icon { width: 28px; height: 28px; background: var(--green); border-radius: 7px; display: flex; align-items: center; justify-content: center; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.logo-icon svg { width: 14px; height: 14px; fill: white; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.logo-name { font-size: 14px; font-weight: 600; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.nav { display: flex; gap: 2px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.nav-btn { padding: 6px 14px; border-radius: var(--radius); border: none; font-size: 13px; cursor: pointer; background: transparent; color: var(--text2); transition: all 0.15s; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.nav-btn:hover { background: var(--bg2); color: var(--text); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.nav-btn.active { background: var(--bg2); color: var(--text); font-weight: 500; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.nav-btn:disabled { opacity: 0.3; cursor: default; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.header-right { display: flex; align-items: center; gap: 10px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.user-pill { display: flex; align-items: center; gap: 8px; padding: 5px 10px; border: 0.5px solid var(--border); border-radius: 99px; background: var(--bg2); font-size: 12px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.avatar { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; flex-shrink: 0; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.role-badge { padding: 2px 7px; border-radius: 99px; font-size: 11px; font-weight: 500; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.rb-admin { background: var(--purple-light); color: var(--purple-text); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.rb-mentor { background: var(--green-light); color: var(--green-text); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.rb-reception { background: var(--blue-light); color: var(--blue-text); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.btn-logout { padding: 5px 12px; border: 0.5px solid var(--border); border-radius: var(--radius); background: transparent; font-size: 12px; cursor: pointer; color: var(--text2); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.btn-logout:hover { background: var(--bg2); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.content { flex: 1; padding: 24px 20px; max-width: 1100px; margin: 0 auto; width: 100%; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.section { display: none; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.section.active { display: block; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>/* COMPONENTS */</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.sec-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.sec-title { font-size: 16px; font-weight: 600; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.btn-primary { padding: 7px 16px; background: var(--green); color: white; border: none; border-radius: var(--radius); font-size: 13px; cursor: pointer; font-weight: 500; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.btn-primary:hover { background: var(--green-dark); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.btn-ghost { padding: 7px 14px; border: 0.5px solid var(--border); border-radius: var(--radius); background: transparent; font-size: 13px; cursor: pointer; color: var(--text2); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.btn-ghost:hover { background: var(--bg2); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.table-wrap { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.data-table { width: 100%; border-collapse: collapse; font-size: 13px; table-layout: fixed; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.data-table th { text-align: left; padding: 9px 14px; font-size: 12px; font-weight: 500; color: var(--text2); border-bottom: 0.5px solid var(--border); background: var(--bg2); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.data-table td { padding: 10px 14px; border-bottom: 0.5px solid var(--border); color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.data-table tr:last-child td { border-bottom: none; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.data-table tr:hover td { background: var(--bg2); cursor: pointer; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.name-cell { display: flex; align-items: center; gap: 8px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.badge { padding: 2px 8px; border-radius: 99px; font-size: 11px; font-weight: 500; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.b-active { background: var(--green-light); color: var(--green-text); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.b-draft { background: var(--gray-light); color: #5F5E5A; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.b-import { background: var(--purple-light); color: var(--purple-text); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.notice { background: var(--bg2); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 12px 16px; font-size: 13px; color: var(--text2); margin-bottom: 16px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.notice strong { color: var(--text); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.empty-state { text-align: center; padding: 40px; color: var(--text2); font-size: 13px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.loading { text-align: center; padding: 40px; color: var(--text2); font-size: 13px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.search-input { padding: 7px 12px; border: 0.5px solid var(--border); border-radius: var(--radius); font-size: 13px; background: var(--bg); color: var(--text); width: 200px; outline: none; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.search-input:focus { border-color: var(--green); }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>/* COURSES */</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.courses-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.course-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 16px; cursor: pointer; transition: border-color 0.15s; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.course-card:hover { border-color: rgba(0,0,0,0.25); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.course-title { font-size: 14px; font-weight: 600; margin-bottom: 6px; color: var(--text); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.course-meta { font-size: 12px; color: var(--text2); display: flex; flex-direction: column; gap: 3px; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>/* COURSE DETAIL */</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.back-btn { display: flex; align-items: center; gap: 6px; background: transparent; border: none; font-size: 13px; color: var(--text2); cursor: pointer; margin-bottom: 16px; padding: 0; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.back-btn:hover { color: var(--text); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.detail-tabs { display: flex; border-bottom: 0.5px solid var(--border); margin-bottom: 20px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.dtab { padding: 8px 16px; font-size: 13px; cursor: pointer; border: none; border-bottom: 2px solid transparent; background: transparent; color: var(--text2); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.dtab.active { color: var(--green); border-bottom-color: var(--green); font-weight: 500; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.dtab-pane { display: none; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.dtab-pane.active { display: block; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.info-card { background: var(--bg2); border-radius: var(--radius-lg); padding: 14px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.info-card-title { font-size: 11px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.info-row { display: flex; justify-content: space-between; font-size: 13px; padding: 3px 0; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.info-row span:first-child { color: var(--text2); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.info-row span:last-child { font-weight: 500; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.mentor-card { display: flex; align-items: center; gap: 12px; background: var(--bg2); border-radius: var(--radius-lg); padding: 14px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.chip { display: inline-block; background: var(--bg); border: 0.5px solid var(--border); border-radius: 99px; padding: 3px 10px; font-size: 12px; margin: 2px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.material-item { display: flex; align-items: center; gap: 10px; background: var(--bg2); border-radius: var(--radius); padding: 10px 12px; margin-bottom: 6px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.mat-icon { width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.mat-pdf { background: var(--red-light); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.mat-ppt { background: var(--amber-light); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.mat-link { background: var(--green-light); }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>/* USERS */</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.perm-grid { display: grid; grid-template-columns: 1fr 80px 80px 80px; border: 0.5px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; font-size: 13px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.perm-h { background: var(--bg2); padding: 8px 12px; font-size: 12px; font-weight: 500; color: var(--text2); border-bottom: 0.5px solid var(--border); border-right: 0.5px solid var(--border); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.perm-h:last-child { border-right: none; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.perm-c { padding: 9px 12px; border-bottom: 0.5px solid var(--border); border-right: 0.5px solid var(--border); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.perm-c:last-child { border-right: none; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.perm-c.center { text-align: center; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.perm-last .perm-c { border-bottom: none; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>/* MODAL */</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); display: flex; align-items: flex-start; justify-content: center; z-index: 100; padding-top: 60px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.modal { background: var(--bg); border-radius: var(--radius-lg); border: 0.5px solid var(--border); padding: 22px; width: 440px; max-width: 95%; max-height: 80vh; overflow-y: auto; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.modal-title { font-size: 15px; font-weight: 600; margin-bottom: 16px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.form-row { margin-bottom: 12px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.form-select { width: 100%; padding: 8px 10px; border: 0.5px solid var(--border); border-radius: var(--radius); font-size: 13px; background: var(--bg); color: var(--text); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.form-section { margin-bottom: 14px; padding-bottom: 14px; border-bottom: 0.5px solid var(--border); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.form-section:last-of-type { border-bottom: none; margin-bottom: 0; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.form-section-title { font-size: 11px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.days-picker { display: flex; gap: 6px; flex-wrap: wrap; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.day-chip { padding: 5px 10px; border: 0.5px solid var(--border); border-radius: 99px; font-size: 12px; cursor: pointer; color: var(--text2); background: transparent; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.day-chip.sel { background: var(--green-light); color: var(--green-text); border-color: var(--green); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.modal-actions { display: flex; gap: 8px; margin-top: 16px; justify-content: flex-end; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>/* PROFILE PANEL */</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.profile-overlay { position: fixed; top: 0; right: 0; width: 320px; height: 100vh; background: var(--bg); border-left: 0.5px solid var(--border); z-index: 50; overflow-y: auto; display: none; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.profile-inner { padding: 20px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.profile-close { background: transparent; border: none; font-size: 20px; cursor: pointer; color: var(--text2); float: right; line-height: 1; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.p-avatar { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 600; margin: 8px auto 10px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.p-name { text-align: center; font-size: 15px; font-weight: 600; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.p-sub { text-align: center; font-size: 12px; color: var(--text2); margin-top: 2px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.psec { margin-top: 14px; padding-top: 14px; border-top: 0.5px solid var(--border); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.psec-t { font-size: 10px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.prow { display: flex; justify-content: space-between; font-size: 12px; padding: 3px 0; gap: 8px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.prow span:first-child { color: var(--text2); flex-shrink: 0; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.prow span:last-child { color: var(--text); text-align: right; word-break: break-word; font-weight: 500; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.p-motivation { font-size: 12px; color: var(--text); line-height: 1.6; padding: 4px 0; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>/* SCHEDULE */</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.schedule-grid { display: grid; grid-template-columns: 56px repeat(5, 1fr); border: 0.5px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; background: var(--bg); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.sg-h { background: var(--bg2); padding: 8px 6px; text-align: center; font-size: 12px; font-weight: 500; border-bottom: 0.5px solid var(--border); border-right: 0.5px solid var(--border); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.sg-h:last-child { border-right: none; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.sg-t { background: var(--bg2); padding: 8px 4px; text-align: center; font-size: 11px; color: var(--text2); border-right: 0.5px solid var(--border); border-bottom: 0.5px solid var(--border); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.sg-c { border-right: 0.5px solid var(--border); border-bottom: 0.5px solid var(--border); padding: 4px; min-height: 52px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.sg-c:last-child { border-right: none; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.sg-last .sg-c, .sg-last .sg-t { border-bottom: none; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.sg-event { border-radius: 6px; padding: 4px 6px; font-size: 11px; height: 100%; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.sg-event .en { font-weight: 600; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.sg-event .es { font-size: 10px; opacity: 0.8; }</p>
+<p class="p1">&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;!-- AUTH --&gt;</p>
+<p class="p1">&lt;div class="auth-screen" id="auth-screen"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="auth-card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="auth-logo"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="auth-logo-icon"&gt;&lt;svg viewBox="0 0 24 24"&gt;&lt;circle cx="12" cy="12" r="3"/&gt;&lt;path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/&gt;&lt;/svg&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div&gt;&lt;div class="auth-title"&gt;Atom Space CRM&lt;/div&gt;&lt;div class="auth-sub"&gt;Увійдіть до системи&lt;/div&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="auth-error" id="auth-error"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;label class="form-label"&gt;Email&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;input class="form-input" id="login-email" type="email" placeholder="your@email.com"/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;label class="form-label"&gt;Пароль&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;input class="form-input" id="login-pass" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;button class="btn-full" onclick="doLogin()" id="login-btn"&gt;Увійти&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p1">&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;!-- APP --&gt;</p>
+<p class="p1">&lt;div class="app" id="app"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="header"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="logo"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="logo-icon"&gt;&lt;svg viewBox="0 0 24 24"&gt;&lt;circle cx="12" cy="12" r="3"/&gt;&lt;path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/&gt;&lt;/svg&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="logo-name"&gt;Atom Space&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="nav" id="main-nav"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="header-right"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="user-pill" id="user-pill"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;button class="btn-logout" onclick="doLogout()"&gt;Вийти&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="content"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="section-courses"<span class="Apple-converted-space">  </span>class="section"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="section-students" class="section"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="section-schedule" class="section"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="section-users"<span class="Apple-converted-space">    </span>class="section"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p1">&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;div id="modal-container"&gt;&lt;/div&gt;</p>
+<p class="p1">&lt;div class="profile-overlay" id="profile-overlay"&gt;&lt;div class="profile-inner" id="profile-inner"&gt;&lt;/div&gt;&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;script&gt;</p>
+<p class="p1">// ============================================================</p>
+<p class="p1">// ВСТАВТЕ ВАШІ КРЕДИ SUPABASE НИЖЧЕ</p>
+<p class="p1">// ============================================================</p>
+<p class="p1">const SUPABASE_URL = 'https://hmpsxqpaqsnvkawuacjo.supabase.co';</p>
+<p class="p1">const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhtcHN4cXBhcXNudmthd3VhY2pvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwMDU3MDMsImV4cCI6MjA4OTU4MTcwM30.aKpCioeaAwBAuZZSmqfHEMlCOWjsg3YUGmuU7clYMmM;</p>
+<p class="p1">// ============================================================</p>
+<p class="p2"><br></p>
+<p class="p1">const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);</p>
+<p class="p2"><br></p>
+<p class="p1">const AVC = ['#E1F5EE|#085041','#EEEDFE|#3C3489','#E6F1FB|#185FA5','#FAEEDA|#633806','#FAECE7|#712B13','#FBEAF0|#72243E'];</p>
+<p class="p1">const ROLE_LABEL = { admin: 'Адмін', mentor: 'Ментор', reception: 'Ресепшн' };</p>
+<p class="p1">const DAYS_UA = ['Пн','Вт','Ср','Чт','Пт','Сб','Нд'];</p>
+<p class="p1">const SCHED_COLORS = ['#E1F5EE|#085041','#E6F1FB|#185FA5','#EEEDFE|#3C3489','#FAEEDA|#633806'];</p>
+<p class="p2"><br></p>
+<p class="p1">let currentUser = null;</p>
+<p class="p1">let courses = [], students = [], allUsers = [];</p>
+<p class="p1">let activeCourseId = null, activeDetailTab = 'info';</p>
+<p class="p2"><br></p>
+<p class="p1">function ini(n){ return n.split(' ').map(w=&gt;w[0]||'').join('').substring(0,2).toUpperCase(); }</p>
+<p class="p1">function avColor(i){ return AVC[i % AVC.length].split('|'); }</p>
+<p class="p1">function fmt(d){ if(!d) return '—'; const p=d.split('-'); return p.length===3?`${p[2]}.${p[1]}.${p[0]}`:d; }</p>
+<p class="p2"><br></p>
+<p class="p1">// ── AUTH ──────────────────────────────────────────────────────</p>
+<p class="p1">async function doLogin(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const email = document.getElementById('login-email').value.trim();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const pass<span class="Apple-converted-space">  </span>= document.getElementById('login-pass').value;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const err <span class="Apple-converted-space">  </span>= document.getElementById('auth-error');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const btn <span class="Apple-converted-space">  </span>= document.getElementById('login-btn');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>err.style.display = 'none';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>btn.textContent = 'Завантаження...'; btn.disabled = true;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if (error) throw error;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>await loadCurrentUser(data.user);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>} catch(e) {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>err.style.display = 'block';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>err.textContent = e.message === 'Invalid login credentials' ? 'Невірний email або пароль' : e.message;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>btn.textContent = 'Увійти'; btn.disabled = false;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">async function loadCurrentUser(authUser){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const { data: profile } = await sb.from('users').select('*').eq('id', authUser.id).single();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(!profile){ showError('Ваш профіль не знайдено. Зверніться до адміна.'); await sb.auth.signOut(); return; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>currentUser = { ...authUser, ...profile };</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('auth-screen').style.display = 'none';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('app').style.display = 'flex';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>buildUI();</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">async function doLogout(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>await sb.auth.signOut();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>currentUser = null; courses = []; students = []; allUsers = [];</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('app').style.display = 'none';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('auth-screen').style.display = 'flex';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('login-pass').value = '';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('login-btn').textContent = 'Увійти';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('login-btn').disabled = false;</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function showError(msg){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const err = document.getElementById('auth-error');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>err.style.display = 'block'; err.textContent = msg;</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">// ── PERMISSIONS ───────────────────────────────────────────────</p>
+<p class="p1">const PERMS = {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>admin: <span class="Apple-converted-space">    </span>{ courses:{v:1,e:1,c:1}, students:{v:1,e:1,c:1}, schedule:{v:1,e:1}, users:{v:1,e:1} },</p>
+<p class="p1"><span class="Apple-converted-space">  </span>mentor:<span class="Apple-converted-space">    </span>{ courses:{v:'own',e:'own',c:0}, students:{v:'own',e:'own',c:0}, schedule:{v:1,e:0}, users:{v:0,e:0} },</p>
+<p class="p1"><span class="Apple-converted-space">  </span>reception: { courses:{v:1,e:0,c:0}, students:{v:1,e:0,c:1}, schedule:{v:1,e:0}, users:{v:0,e:0} },</p>
+<p class="p1">};</p>
+<p class="p1">function can(s,a){ const p=PERMS[currentUser.role]; return p[s]&amp;&amp;(p[s][a]===1||p[s][a]==='own'); }</p>
+<p class="p1">function isOwn(s){ const p=PERMS[currentUser.role]; return p[s]&amp;&amp;(p[s].v==='own'); }</p>
+<p class="p2"><br></p>
+<p class="p1">// ── UI BUILDER ────────────────────────────────────────────────</p>
+<p class="p1">function buildUI(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const [bg,tc] = avColor(0);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const rb = `rb-${currentUser.role}`;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('user-pill').innerHTML =</p>
+<p class="p1"><span class="Apple-converted-space">    </span>`&lt;div class="avatar" style="background:${bg};color:${tc};"&gt;${ini(currentUser.name)}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">     </span>&lt;span style="font-size:12px;"&gt;${currentUser.name}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">     </span>&lt;span class="role-badge ${rb}"&gt;${ROLE_LABEL[currentUser.role]}&lt;/span&gt;`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>const sections = [</p>
+<p class="p1"><span class="Apple-converted-space">    </span>{id:'courses', <span class="Apple-converted-space">  </span>label:'Курси',<span class="Apple-converted-space">        </span>show: can('courses','v')},</p>
+<p class="p1"><span class="Apple-converted-space">    </span>{id:'students',<span class="Apple-converted-space">  </span>label:'Студенти', <span class="Apple-converted-space">    </span>show: can('students','v')},</p>
+<p class="p1"><span class="Apple-converted-space">    </span>{id:'schedule',<span class="Apple-converted-space">  </span>label:'Розклад',<span class="Apple-converted-space">      </span>show: can('schedule','v')},</p>
+<p class="p1"><span class="Apple-converted-space">    </span>{id:'users', <span class="Apple-converted-space">    </span>label:'Користувачі',<span class="Apple-converted-space">  </span>show: can('users','v')},</p>
+<p class="p1"><span class="Apple-converted-space">  </span>];</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('main-nav').innerHTML = sections.map(s=&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>`&lt;button class="nav-btn" ${s.show?'':'disabled'} onclick="showSection('${s.id}')"&gt;${s.label}&lt;/button&gt;`</p>
+<p class="p1"><span class="Apple-converted-space">  </span>).join('');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>const first = sections.find(s=&gt;s.show);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(first) showSection(first.id);</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function showSection(id){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.querySelectorAll('.section').forEach(s=&gt;s.classList.remove('active'));</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.querySelectorAll('.nav-btn').forEach(b=&gt;b.classList.remove('active'));</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('section-'+id).classList.add('active');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.querySelectorAll('.nav-btn').forEach(b=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if(b.textContent === ({courses:'Курси',students:'Студенти',schedule:'Розклад',users:'Користувачі'}[id]))</p>
+<p class="p1"><span class="Apple-converted-space">      </span>b.classList.add('active');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>closeProfile();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>({ courses: renderCoursesList, students: renderStudents, schedule: renderSchedule, users: renderUsers })[id]?.();</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">// ── COURSES ───────────────────────────────────────────────────</p>
+<p class="p1">async function renderCoursesList(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const el = document.getElementById('section-courses');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>el.innerHTML = `&lt;div class="sec-top"&gt;&lt;div class="sec-title"&gt;Курси&lt;/div&gt;${can('courses','c')?'&lt;button class="btn-primary" onclick="openCourseModal()"&gt;+ Новий курс&lt;/button&gt;':''}&lt;/div&gt;&lt;div class="loading"&gt;Завантаження...&lt;/div&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('course-detail-view')?.remove();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>let q = sb.from('courses').select('*').order('created_at', {ascending:false});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(isOwn('courses')) q = q.eq('id', currentUser.course_id);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const { data } = await q;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>courses = data || [];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>el.innerHTML = `</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="sec-top"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="sec-title"&gt;Курси &lt;span style="font-size:13px;font-weight:400;color:var(--text2);"&gt;(${courses.length})&lt;/span&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>${can('courses','c')?'&lt;button class="btn-primary" onclick="openCourseModal()"&gt;+ Новий курс&lt;/button&gt;':''}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>${isOwn('courses')?'&lt;div class="notice"&gt;Ви бачите лише &lt;strong&gt;свої курси&lt;/strong&gt;.&lt;/div&gt;':''}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="courses-grid" id="courses-grid"&gt;&lt;/div&gt;`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('courses-grid').innerHTML = courses.length</p>
+<p class="p1"><span class="Apple-converted-space">    </span>? courses.map(c=&gt;`</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="course-card" onclick="openCourseDetail(${c.id})"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="badge ${c.status==='active'?'b-active':'b-draft'}" style="margin-bottom:8px;display:inline-block;"&gt;${c.status==='active'?'Активний':'Чернетка'}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="course-title"&gt;${c.name}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="course-meta"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span&gt;${c.mentor_name||'—'}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span&gt;${(c.schedule_days||[]).join('/')} ${c.schedule_time||''}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span&gt;${fmt(c.start_date)} — ${fmt(c.end_date)}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;`).join('')</p>
+<p class="p1"><span class="Apple-converted-space">    </span>: '&lt;div class="empty-state"&gt;Курсів ще немає&lt;/div&gt;';</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">async function openCourseDetail(id){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>activeCourseId = id; activeDetailTab = 'info';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const el = document.getElementById('section-courses');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>el.innerHTML = `&lt;div id="course-detail-view"&gt;&lt;div class="loading"&gt;Завантаження...&lt;/div&gt;&lt;/div&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const { data: c } = await sb.from('courses').select('*').eq('id',id).single();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const { data: mats } = await sb.from('materials').select('*').eq('course_id',id).order('created_at');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const { data: sts } = await sb.from('students').select('*').eq('course_id',id).order('name');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>el.innerHTML = `&lt;div id="course-detail-view"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;button class="back-btn" onclick="renderCoursesList()"&gt;← Всі курси&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div style="font-size:20px;font-weight:700;"&gt;${c.name}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="badge ${c.status==='active'?'b-active':'b-draft'}"&gt;${c.status==='active'?'Активний':'Чернетка'}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div style="font-size:13px;color:var(--text2);"&gt;${fmt(c.start_date)} — ${fmt(c.end_date)} · ${(sts||[]).length} студентів&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>${can('courses','e')?`&lt;button class="btn-ghost" onclick="openCourseModal(${c.id})"&gt;Редагувати&lt;/button&gt;`:''}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="detail-tabs"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;button class="dtab ${activeDetailTab==='info'?'active':''}" onclick="switchTab('info')"&gt;Інформація&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;button class="dtab ${activeDetailTab==='students'?'active':''}" onclick="switchTab('students')"&gt;Студенти (${(sts||[]).length})&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;button class="dtab ${activeDetailTab==='materials'?'active':''}" onclick="switchTab('materials')"&gt;Матеріали (${(mats||[]).length})&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="dtab-info" class="dtab-pane ${activeDetailTab==='info'?'active':''}"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="info-grid"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="info-card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="info-card-title"&gt;Розклад&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="info-row"&gt;&lt;span&gt;Початок&lt;/span&gt;&lt;span&gt;${fmt(c.start_date)}&lt;/span&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="info-row"&gt;&lt;span&gt;Кінець&lt;/span&gt;&lt;span&gt;${fmt(c.end_date)}&lt;/span&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div style="margin-top:8px;"&gt;${(c.schedule_days||[]).map(d=&gt;`&lt;span class="chip"&gt;${d} ${c.schedule_time||''}&lt;/span&gt;`).join('')}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="info-card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="info-card-title"&gt;Реєстрація&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>${c.registration_form</p>
+<p class="p1"><span class="Apple-converted-space">            </span>?`&lt;div style="font-size:12px;margin-bottom:8px;color:var(--text2);"&gt;Google Form підключено&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">               </span>&lt;a href="${c.registration_form}" style="font-size:12px;color:var(--blue-text);word-break:break-all;" target="_blank"&gt;${c.registration_form.substring(0,45)}...&lt;/a&gt;`</p>
+<p class="p1"><span class="Apple-converted-space">            </span>:`&lt;div style="font-size:13px;color:var(--text2);"&gt;Форму не додано&lt;/div&gt;`}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="mentor-card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="avatar" style="width:44px;height:44px;font-size:15px;background:var(--green-light);color:var(--green-text);"&gt;${ini(c.mentor_name||'?')}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div style="font-size:14px;font-weight:600;"&gt;${c.mentor_name||'—'}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div style="font-size:12px;color:var(--text2);"&gt;${c.mentor_telegram||''} · ${c.mentor_email||''}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div style="font-size:12px;color:var(--text2);"&gt;${c.mentor_phone||''}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="dtab-students" class="dtab-pane ${activeDetailTab==='students'?'active':''}"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>${(sts||[]).length</p>
+<p class="p1"><span class="Apple-converted-space">        </span>?`&lt;div class="table-wrap"&gt;&lt;table class="data-table"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Студент&lt;/th&gt;&lt;th&gt;Telegram&lt;/th&gt;&lt;th&gt;Навчання&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;tbody&gt;${(sts||[]).map((s,i)=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">              </span>const[bg,tc]=avColor(i);</p>
+<p class="p1"><span class="Apple-converted-space">              </span>return `&lt;tr onclick="openProfile(${s.id})"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td&gt;&lt;div class="name-cell"&gt;&lt;div class="avatar" style="background:${bg};color:${tc};"&gt;${ini(s.name)}&lt;/div&gt;${s.name}&lt;/div&gt;&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td style="color:var(--text2);"&gt;${s.telegram||'—'}&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td style="color:var(--text2);"&gt;${s.study||'—'}&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/tr&gt;`;}).join('')}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;`</p>
+<p class="p1"><span class="Apple-converted-space">        </span>:`&lt;div class="empty-state"&gt;Студентів ще немає&lt;/div&gt;`}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="dtab-materials" class="dtab-pane ${activeDetailTab==='materials'?'active':''}"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div style="display:flex;justify-content:flex-end;margin-bottom:12px;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button class="btn-primary" style="font-size:12px;" onclick="openMaterialModal(${c.id})"&gt;+ Додати матеріал&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>${(mats||[]).map((m,mi)=&gt;`</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="material-item"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="mat-icon ${m.type==='pdf'?'mat-pdf':m.type==='ppt'?'mat-ppt':'mat-link'}"&gt;${m.type==='pdf'?'📄':m.type==='ppt'?'📊':'🔗'}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div style="flex:1;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div style="font-size:13px;font-weight:500;"&gt;${m.name}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div style="font-size:11px;color:var(--text2);"&gt;${fmt(m.created_at?.split('T')[0])}${m.url?` · &lt;a href="${m.url}" target="_blank" style="color:var(--blue-text);"&gt;відкрити&lt;/a&gt;`:''}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;button onclick="deleteMaterial(${m.id},${c.id})" style="background:transparent;border:none;font-size:16px;cursor:pointer;color:var(--text2);"&gt;×&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;`).join('') || '&lt;div class="empty-state"&gt;Матеріалів ще немає&lt;/div&gt;'}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;`;</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function switchTab(tab){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>activeDetailTab = tab;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.querySelectorAll('.dtab-pane').forEach(p=&gt;p.classList.remove('active'));</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.querySelectorAll('.dtab').forEach(b=&gt;b.classList.remove('active'));</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('dtab-'+tab)?.classList.add('active');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.querySelectorAll('.dtab').forEach(b=&gt;{ if(b.textContent.startsWith({info:'Інф',students:'Студ',materials:'Мат'}[tab])) b.classList.add('active'); });</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">async function deleteMaterial(mid, cid){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>await sb.from('materials').delete().eq('id', mid);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>openCourseDetail(cid);</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function openMaterialModal(cid){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>showModal(`&lt;div class="modal"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="modal-title"&gt;Додати матеріал&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="form-row"&gt;&lt;label class="form-label"&gt;Тип&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;select class="form-select" id="mat-type"&gt;&lt;option value="pdf"&gt;📄 PDF / документ&lt;/option&gt;&lt;option value="ppt"&gt;📊 Презентація&lt;/option&gt;&lt;option value="link"&gt;🔗 Посилання&lt;/option&gt;&lt;/select&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="form-row"&gt;&lt;label class="form-label"&gt;Назва&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;input class="form-input" id="mat-name" placeholder="напр. Лекція 3 — Функції"/&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="form-row"&gt;&lt;label class="form-label"&gt;Посилання (Google Drive / Slides)&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;input class="form-input" id="mat-url" placeholder="https://drive.google.com/..."/&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="modal-actions"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;button class="btn-ghost" onclick="closeModal()"&gt;Скасувати&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;button class="btn-primary" onclick="saveMaterial(${cid})"&gt;Додати&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;`);</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">async function saveMaterial(cid){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const type = document.getElementById('mat-type').value;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const name = document.getElementById('mat-name').value || 'Матеріал';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const url<span class="Apple-converted-space">  </span>= document.getElementById('mat-url').value;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>await sb.from('materials').insert([{ course_id: cid, type, name, url }]);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>closeModal();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>openCourseDetail(cid);</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function openCourseModal(editId){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const c = editId ? courses.find(x=&gt;x.id===editId) : null;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const selDays = c ? (c.schedule_days||[]) : [];</p>
+<p class="p1"><span class="Apple-converted-space">  </span>showModal(`&lt;div class="modal"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="modal-title"&gt;${c?'Редагувати курс':'Новий курс'}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="form-section"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="form-section-title"&gt;Основне&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="form-row"&gt;&lt;label class="form-label"&gt;Назва курсу&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;input class="form-input" id="c-name" value="${c?c.name:''}" placeholder="напр. TypeScript Pro"/&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="form-row-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div&gt;&lt;label class="form-label"&gt;Дата початку&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;input class="form-input" id="c-start" type="date" value="${c?c.start_date:''}"/&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div&gt;&lt;label class="form-label"&gt;Дата закінчення&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;input class="form-input" id="c-end" type="date" value="${c?c.end_date:''}"/&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="form-row"&gt;&lt;label class="form-label"&gt;Статус&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;select class="form-select" id="c-status"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;option value="draft" ${c?.status==='draft'?'selected':''}&gt;Чернетка&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;option value="active" ${!c||c.status==='active'?'selected':''}&gt;Активний&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/select&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="form-section"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="form-section-title"&gt;Розклад&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="form-row"&gt;&lt;label class="form-label"&gt;Дні тижня&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="days-picker"&gt;${DAYS_UA.map(d=&gt;`&lt;button type="button" class="day-chip ${selDays.includes(d)?'sel':''}" onclick="this.classList.toggle('sel')"&gt;${d}&lt;/button&gt;`).join('')}&lt;/div&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="form-row"&gt;&lt;label class="form-label"&gt;Час&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;input class="form-input" id="c-time" placeholder="18:00" value="${c?c.schedule_time:''}"/&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="form-section"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="form-section-title"&gt;Ментор&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="form-row"&gt;&lt;label class="form-label"&gt;Ім'я та прізвище&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;input class="form-input" id="m-name" value="${c?c.mentor_name:''}"/&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="form-row-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div&gt;&lt;label class="form-label"&gt;Telegram&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;input class="form-input" id="m-tg" value="${c?c.mentor_telegram:''}" placeholder="@нік"/&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div&gt;&lt;label class="form-label"&gt;Телефон&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;input class="form-input" id="m-phone" value="${c?c.mentor_phone:''}" placeholder="+380..."/&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="form-row"&gt;&lt;label class="form-label"&gt;Email&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;input class="form-input" id="m-email" value="${c?c.mentor_email:''}" placeholder="mentor@atomspace.com"/&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="form-section"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="form-section-title"&gt;Реєстрація студентів&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="form-row"&gt;&lt;label class="form-label"&gt;Посилання на Google Form&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;input class="form-input" id="c-form" value="${c?c.registration_form||'':''}" placeholder="https://forms.google.com/..."/&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="modal-actions"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;button class="btn-ghost" onclick="closeModal()"&gt;Скасувати&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;button class="btn-primary" onclick="saveCourse(${editId||'null'})"&gt;${c?'Зберегти':'Створити'}&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;`);</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">async function saveCourse(editId){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const days = [...document.querySelectorAll('#modal-container .day-chip.sel')].map(b=&gt;b.textContent);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const payload = {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>name: document.getElementById('c-name').value || 'Новий курс',</p>
+<p class="p1"><span class="Apple-converted-space">    </span>start_date: document.getElementById('c-start').value || null,</p>
+<p class="p1"><span class="Apple-converted-space">    </span>end_date: document.getElementById('c-end').value || null,</p>
+<p class="p1"><span class="Apple-converted-space">    </span>status: document.getElementById('c-status').value,</p>
+<p class="p1"><span class="Apple-converted-space">    </span>schedule_days: days,</p>
+<p class="p1"><span class="Apple-converted-space">    </span>schedule_time: document.getElementById('c-time').value,</p>
+<p class="p1"><span class="Apple-converted-space">    </span>mentor_name: document.getElementById('m-name').value,</p>
+<p class="p1"><span class="Apple-converted-space">    </span>mentor_telegram: document.getElementById('m-tg').value,</p>
+<p class="p1"><span class="Apple-converted-space">    </span>mentor_phone: document.getElementById('m-phone').value,</p>
+<p class="p1"><span class="Apple-converted-space">    </span>mentor_email: document.getElementById('m-email').value,</p>
+<p class="p1"><span class="Apple-converted-space">    </span>registration_form: document.getElementById('c-form').value,</p>
+<p class="p1"><span class="Apple-converted-space">  </span>};</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(editId){ await sb.from('courses').update(payload).eq('id', editId); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>else { await sb.from('courses').insert([payload]); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>closeModal();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>renderCoursesList();</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">// ── STUDENTS ──────────────────────────────────────────────────</p>
+<p class="p1">async function renderStudents(filter=''){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const el = document.getElementById('section-students');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>el.innerHTML = `&lt;div class="sec-top"&gt;&lt;div class="sec-title"&gt;Студенти&lt;/div&gt;&lt;/div&gt;&lt;div class="loading"&gt;Завантаження...&lt;/div&gt;`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>let q = sb.from('students').select('*, courses(name)').order('name');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(isOwn('students')) q = q.eq('course_id', currentUser.course_id);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(filter) q = q.ilike('name', `%${filter}%`);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const { data } = await q;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>students = data || [];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>el.innerHTML = `</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="sec-top"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div style="display:flex;align-items:center;gap:10px;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="sec-title"&gt;Студенти&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;span style="font-size:12px;color:var(--text2);"&gt;${students.length} осіб&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div style="display:flex;gap:8px;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;input class="search-input" placeholder="Пошук..." oninput="renderStudents(this.value)"/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>${can('students','c')?'&lt;button class="btn-primary" onclick="openStudentModal()"&gt;+ Додати&lt;/button&gt;':''}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>${isOwn('students')?'&lt;div class="notice"&gt;Ви бачите лише студентів &lt;strong&gt;своїх курсів&lt;/strong&gt;.&lt;/div&gt;':''}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="table-wrap"&gt;&lt;table class="data-table"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;thead&gt;&lt;tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;th style="width:30%;"&gt;Студент&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;th style="width:18%;"&gt;Telegram&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;th style="width:24%;"&gt;Навчання&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;th style="width:20%;"&gt;Курс&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;th style="width:8%;"&gt;Дата&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/tr&gt;&lt;/thead&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;tbody&gt;${students.length</p>
+<p class="p1"><span class="Apple-converted-space">        </span>? students.map((s,i)=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const[bg,tc]=avColor(i);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>return `&lt;tr onclick="openProfile(${s.id})"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;td&gt;&lt;div class="name-cell"&gt;&lt;div class="avatar" style="background:${bg};color:${tc};"&gt;${ini(s.name)}&lt;/div&gt;${s.name}&lt;/div&gt;&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;td style="color:var(--text2);"&gt;${s.telegram||'—'}&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;td style="color:var(--text2);"&gt;${s.study||'—'}&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;td style="color:var(--text2);font-size:12px;"&gt;${s.courses?.name||'—'}&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;td style="color:var(--text2);"&gt;${fmt(s.created_at?.split('T')[0])}&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/tr&gt;`;}).join('')</p>
+<p class="p1"><span class="Apple-converted-space">        </span>: '&lt;tr&gt;&lt;td colspan="5"&gt;&lt;div class="empty-state"&gt;Студентів ще немає&lt;/div&gt;&lt;/td&gt;&lt;/tr&gt;'}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/tbody&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/table&gt;&lt;/div&gt;`;</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">async function openProfile(id){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const { data: s } = await sb.from('students').select('*, courses(name)').eq('id',id).single();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(!s) return;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const [bg,tc] = avColor(0);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('profile-overlay').style.display = 'block';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('profile-inner').innerHTML = `</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;button class="profile-close" onclick="closeProfile()"&gt;×&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div style="clear:both;"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="p-avatar" style="background:${bg};color:${tc};"&gt;${ini(s.name)}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="p-name"&gt;${s.name}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="p-sub"&gt;${s.study||''}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="psec"&gt;&lt;div class="psec-t"&gt;Контакти&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="prow"&gt;&lt;span&gt;Telegram&lt;/span&gt;&lt;span&gt;${s.telegram||'—'}&lt;/span&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="prow"&gt;&lt;span&gt;Email&lt;/span&gt;&lt;span&gt;${s.email||'—'}&lt;/span&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="prow"&gt;&lt;span&gt;Телефон&lt;/span&gt;&lt;span&gt;${s.phone||'—'}&lt;/span&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="psec"&gt;&lt;div class="psec-t"&gt;Курс&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="prow"&gt;&lt;span&gt;Курс&lt;/span&gt;&lt;span&gt;${s.courses?.name||'—'}&lt;/span&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="prow"&gt;&lt;span&gt;Дата нар.&lt;/span&gt;&lt;span&gt;${s.bday||'—'}&lt;/span&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="prow"&gt;&lt;span&gt;Дізнався з&lt;/span&gt;&lt;span&gt;${s.source||'—'}&lt;/span&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>${s.projects?`&lt;div class="prow"&gt;&lt;span&gt;Проєкти&lt;/span&gt;&lt;span style="color:var(--blue-text);"&gt;${s.projects}&lt;/span&gt;&lt;/div&gt;`:''}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>${s.motivation?`&lt;div class="psec"&gt;&lt;div class="psec-t"&gt;Мотивація&lt;/div&gt;&lt;div class="p-motivation"&gt;${s.motivation.substring(0,250)}${s.motivation.length&gt;250?'…':''}&lt;/div&gt;&lt;/div&gt;`:''}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>${can('students','e')?`&lt;div class="psec"&gt;&lt;button class="btn-ghost" style="width:100%;font-size:12px;" onclick="openStudentModal(${s.id})"&gt;Редагувати&lt;/button&gt;&lt;/div&gt;`:''}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="psec"&gt;&lt;button class="btn-ghost" style="width:100%;font-size:12px;" onclick="closeProfile()"&gt;Закрити&lt;/button&gt;&lt;/div&gt;`;</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function closeProfile(){ document.getElementById('profile-overlay').style.display='none'; }</p>
+<p class="p2"><br></p>
+<p class="p1">function openStudentModal(editId){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const s = editId ? students.find(x=&gt;x.id===editId) : null;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>showModal(`&lt;div class="modal"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="modal-title"&gt;${s?'Редагувати студента':'Новий студент'}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="form-row"&gt;&lt;label class="form-label"&gt;Ім'я та прізвище&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;input class="form-input" id="s-name" value="${s?s.name:''}" placeholder="Ім'я Прізвище"/&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="form-row-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div&gt;&lt;label class="form-label"&gt;Email&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;input class="form-input" id="s-email" value="${s?s.email||'':''}" placeholder="email@..."/&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div&gt;&lt;label class="form-label"&gt;Телефон&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;input class="form-input" id="s-phone" value="${s?s.phone||'':''}" placeholder="+380..."/&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="form-row-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div&gt;&lt;label class="form-label"&gt;Telegram&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;input class="form-input" id="s-tg" value="${s?s.telegram||'':''}" placeholder="@нік"/&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div&gt;&lt;label class="form-label"&gt;Дата народження&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;input class="form-input" id="s-bday" value="${s?s.bday||'':''}" placeholder="дд.мм.рррр"/&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="form-row"&gt;&lt;label class="form-label"&gt;Де навчається&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;input class="form-input" id="s-study" value="${s?s.study||'':''}" placeholder="КПІ, Комп'ютерні науки"/&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="form-row"&gt;&lt;label class="form-label"&gt;Курс&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;select class="form-select" id="s-course"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>${courses.map(c=&gt;`&lt;option value="${c.id}" ${s?.course_id===c.id?'selected':''}&gt;${c.name}&lt;/option&gt;`).join('')}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/select&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="modal-actions"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;button class="btn-ghost" onclick="closeModal()"&gt;Скасувати&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;button class="btn-primary" onclick="saveStudent(${editId||'null'})"&gt;${s?'Зберегти':'Додати'}&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;`);</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">async function saveStudent(editId){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const payload = {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>name: document.getElementById('s-name').value || 'Студент',</p>
+<p class="p1"><span class="Apple-converted-space">    </span>email: document.getElementById('s-email').value,</p>
+<p class="p1"><span class="Apple-converted-space">    </span>phone: document.getElementById('s-phone').value,</p>
+<p class="p1"><span class="Apple-converted-space">    </span>telegram: document.getElementById('s-tg').value,</p>
+<p class="p1"><span class="Apple-converted-space">    </span>bday: document.getElementById('s-bday').value,</p>
+<p class="p1"><span class="Apple-converted-space">    </span>study: document.getElementById('s-study').value,</p>
+<p class="p1"><span class="Apple-converted-space">    </span>course_id: parseInt(document.getElementById('s-course').value) || null,</p>
+<p class="p1"><span class="Apple-converted-space">  </span>};</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(editId){ await sb.from('students').update(payload).eq('id', editId); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>else { await sb.from('students').insert([payload]); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>closeModal();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>renderStudents();</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">// ── SCHEDULE ──────────────────────────────────────────────────</p>
+<p class="p1">async function renderSchedule(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const el = document.getElementById('section-schedule');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>el.innerHTML = `&lt;div class="sec-top"&gt;&lt;div class="sec-title"&gt;Розклад&lt;/div&gt;&lt;/div&gt;&lt;div class="loading"&gt;Завантаження...&lt;/div&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const { data } = await sb.from('courses').select('name, schedule_days, schedule_time, status').eq('status','active');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const canEdit = can('schedule','e');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const times = ['09:00','11:00','13:00','15:00','18:00','19:00'];</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const days = ['Пн','Вт','Ср','Чт','Пт'];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>const events = [];</p>
+<p class="p1"><span class="Apple-converted-space">  </span>(data||[]).forEach((c,ci)=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">    </span>(c.schedule_days||[]).forEach(day=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const di = days.indexOf(day);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const ti = times.indexOf(c.schedule_time);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if(di&gt;=0 &amp;&amp; ti&gt;=0) events.push({di,ti,name:c.name.split(' ').slice(0,2).join(' '),ci});</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>let grid = `&lt;div class="schedule-grid"&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>grid += `&lt;div class="sg-h"&gt;&lt;/div&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>days.forEach(d=&gt;{ grid+=`&lt;div class="sg-h"&gt;${d}&lt;/div&gt;`; });</p>
+<p class="p1"><span class="Apple-converted-space">  </span>times.forEach((t,ti)=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const last = ti===times.length-1;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>grid += `&lt;div class="sg-t${last?' sg-last':''}"&gt;${t}&lt;/div&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>days.forEach((_,di)=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const ev = events.find(e=&gt;e.di===di&amp;&amp;e.ti===ti);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const [bg,tc] = ev ? SCHED_COLORS[ev.ci%SCHED_COLORS.length].split('|') : ['',''];</p>
+<p class="p1"><span class="Apple-converted-space">      </span>grid += `&lt;div class="sg-c${last?' sg-last':''}"&gt;${ev?`&lt;div class="sg-event" style="background:${bg};color:${tc};"&gt;&lt;div class="en"&gt;${ev.name}&lt;/div&gt;&lt;/div&gt;`:''}&lt;/div&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>grid += '&lt;/div&gt;';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>el.innerHTML = `</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="sec-top"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="sec-title"&gt;Розклад&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>${canEdit?'&lt;button class="btn-primary" onclick="openCourseModal()"&gt;+ Новий курс&lt;/button&gt;':''}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>${!canEdit?'&lt;div class="notice"&gt;Тільки перегляд. Для змін зверніться до адміна.&lt;/div&gt;':''}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>${grid}`;</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">// ── USERS ─────────────────────────────────────────────────────</p>
+<p class="p1">async function renderUsers(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const el = document.getElementById('section-users');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>el.innerHTML = `&lt;div class="loading"&gt;Завантаження...&lt;/div&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const { data } = await sb.from('users').select('*, courses(name)').order('role');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>allUsers = data || [];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>const permRows = [</p>
+<p class="p1"><span class="Apple-converted-space">    </span>{label:'Курси — перегляд', <span class="Apple-converted-space">    </span>a:1, m:'own', r:1},</p>
+<p class="p1"><span class="Apple-converted-space">    </span>{label:'Курси — редагування',<span class="Apple-converted-space">  </span>a:1, m:'own', r:0},</p>
+<p class="p1"><span class="Apple-converted-space">    </span>{label:'Студенти — перегляд',<span class="Apple-converted-space">  </span>a:1, m:'own', r:1},</p>
+<p class="p1"><span class="Apple-converted-space">    </span>{label:'Студенти — редагування',a:1,m:'own', r:0},</p>
+<p class="p1"><span class="Apple-converted-space">    </span>{label:'Розклад — перегляд', <span class="Apple-converted-space">  </span>a:1, m:1, <span class="Apple-converted-space">    </span>r:1},</p>
+<p class="p1"><span class="Apple-converted-space">    </span>{label:'Розклад — редагування',a:1, m:0, <span class="Apple-converted-space">    </span>r:0},</p>
+<p class="p1"><span class="Apple-converted-space">    </span>{label:'Користувачі',<span class="Apple-converted-space">          </span>a:1, m:0, <span class="Apple-converted-space">    </span>r:0},</p>
+<p class="p1"><span class="Apple-converted-space">  </span>];</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const cell = v =&gt; v===1?'&lt;span style="color:var(--green);"&gt;✓&lt;/span&gt;':v==='own'?'&lt;span style="color:#BA7517;"&gt;свої&lt;/span&gt;':'&lt;span style="color:#D3D1C7;"&gt;—&lt;/span&gt;';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>el.innerHTML = `</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="sec-top"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="sec-title"&gt;Користувачі&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>${can('users','e')?'&lt;button class="btn-primary" onclick="openUserModal()"&gt;+ Додати&lt;/button&gt;':''}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="table-wrap" style="margin-bottom:20px;"&gt;&lt;table class="data-table"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Користувач&lt;/th&gt;&lt;th&gt;Email&lt;/th&gt;&lt;th&gt;Роль&lt;/th&gt;&lt;th&gt;Курс&lt;/th&gt;${can('users','e')?'&lt;th&gt;&lt;/th&gt;':''}&lt;/tr&gt;&lt;/thead&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;tbody&gt;${allUsers.map((u,i)=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const[bg,tc]=avColor(i);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>return `&lt;tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;td&gt;&lt;div class="name-cell"&gt;&lt;div class="avatar" style="background:${bg};color:${tc};"&gt;${ini(u.name)}&lt;/div&gt;${u.name}&lt;/div&gt;&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;td style="color:var(--text2);font-size:12px;"&gt;${u.email||'—'}&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;td&gt;&lt;span class="role-badge rb-${u.role}"&gt;${ROLE_LABEL[u.role]}&lt;/span&gt;&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;td style="color:var(--text2);font-size:12px;"&gt;${u.courses?.name||'—'}&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>${can('users','e')?`&lt;td&gt;&lt;button class="btn-ghost" style="font-size:12px;padding:4px 8px;" onclick="openEditUserModal('${u.id}')"&gt;Змінити роль&lt;/button&gt;&lt;/td&gt;`:''}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/tr&gt;`;}).join('')}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/tbody&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/table&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div style="font-size:14px;font-weight:600;margin-bottom:10px;"&gt;Матриця прав доступу&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="perm-grid"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="perm-h"&gt;Дія&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="perm-h" style="text-align:center;"&gt;Адмін&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="perm-h" style="text-align:center;"&gt;Ментор&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="perm-h" style="text-align:center;border-right:none;"&gt;Ресепшн&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>${permRows.map((r,i)=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const last = i===permRows.length-1;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>return `&lt;div class="perm-c${last?' perm-last':''}"&gt;${r.label}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="perm-c center${last?' perm-last':''}"&gt;${cell(r.a)}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="perm-c center${last?' perm-last':''}"&gt;${cell(r.m)}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="perm-c center${last?' perm-last':''}" style="border-right:none;"&gt;${cell(r.r)}&lt;/div&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}).join('')}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;`;</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function openUserModal(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>showModal(`&lt;div class="modal"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="modal-title"&gt;Новий користувач&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="notice" style="margin-bottom:14px;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>Спочатку створи користувача в &lt;strong&gt;Supabase → Authentication → Users → Invite user&lt;/strong&gt;,</p>
+<p class="p1"><span class="Apple-converted-space">      </span>потім повернись сюди і призначи роль.</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="form-row"&gt;&lt;label class="form-label"&gt;UUID користувача (з Supabase Auth)&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;input class="form-input" id="u-id" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"/&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="form-row"&gt;&lt;label class="form-label"&gt;Ім'я та прізвище&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;input class="form-input" id="u-name" placeholder="Ім'я Прізвище"/&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="form-row"&gt;&lt;label class="form-label"&gt;Роль&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;select class="form-select" id="u-role" onchange="toggleCourseField(this.value)"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;option value="admin"&gt;Адмін&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;option value="mentor"&gt;Ментор&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;option value="reception"&gt;Ресепшн&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/select&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="form-row" id="course-field" style="display:none;"&gt;&lt;label class="form-label"&gt;Курс ментора&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;select class="form-select" id="u-course"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>${courses.map(c=&gt;`&lt;option value="${c.id}"&gt;${c.name}&lt;/option&gt;`).join('')}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/select&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="modal-actions"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;button class="btn-ghost" onclick="closeModal()"&gt;Скасувати&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;button class="btn-primary" onclick="saveUser()"&gt;Додати&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;`);</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function toggleCourseField(role){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const f = document.getElementById('course-field');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(f) f.style.display = role==='mentor'?'block':'none';</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">async function saveUser(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const id <span class="Apple-converted-space">      </span>= document.getElementById('u-id').value.trim();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const name <span class="Apple-converted-space">    </span>= document.getElementById('u-name').value || 'Користувач';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const role <span class="Apple-converted-space">    </span>= document.getElementById('u-role').value;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const courseId = role==='mentor' ? parseInt(document.getElementById('u-course')?.value)||null : null;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(!id){ alert('Вкажи UUID'); return; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const { error } = await sb.from('users').upsert([{ id, name, role, course_id: courseId }]);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(error){ alert('Помилка: '+error.message); return; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>closeModal();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>renderUsers();</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function openEditUserModal(uid){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const u = allUsers.find(x=&gt;x.id===uid);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>showModal(`&lt;div class="modal"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="modal-title"&gt;Змінити роль — ${u.name}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="form-row"&gt;&lt;label class="form-label"&gt;Роль&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;select class="form-select" id="er-role"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;option value="admin" ${u.role==='admin'?'selected':''}&gt;Адмін&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;option value="mentor" ${u.role==='mentor'?'selected':''}&gt;Ментор&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;option value="reception" ${u.role==='reception'?'selected':''}&gt;Ресепшн&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/select&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="modal-actions"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;button class="btn-ghost" onclick="closeModal()"&gt;Скасувати&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;button class="btn-primary" onclick="applyRole('${uid}')"&gt;Зберегти&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;`);</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">async function applyRole(uid){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>await sb.from('users').update({ role: document.getElementById('er-role').value }).eq('id', uid);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>closeModal();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>renderUsers();</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">// ── MODAL HELPERS ─────────────────────────────────────────────</p>
+<p class="p1">function showModal(html){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('modal-container').innerHTML =</p>
+<p class="p1"><span class="Apple-converted-space">    </span>`&lt;div class="modal-overlay" onclick="if(event.target===this)closeModal()"&gt;${html}&lt;/div&gt;`;</p>
+<p class="p1">}</p>
+<p class="p1">function closeModal(){ document.getElementById('modal-container').innerHTML=''; }</p>
+<p class="p2"><br></p>
+<p class="p1">// ── INIT ──────────────────────────────────────────────────────</p>
+<p class="p1">sb.auth.onAuthStateChange(async (event, session) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(event==='SIGNED_IN' &amp;&amp; session){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>await loadCurrentUser(session.user);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>} else if(event==='SIGNED_OUT'){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('app').style.display='none';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('auth-screen').style.display='flex';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1">});</p>
+<p class="p1">&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
